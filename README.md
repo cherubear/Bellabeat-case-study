@@ -33,28 +33,46 @@ Here is my evaluation regarding how the data fare as good data, on a scale of 1-
 
 Data files are collected over 2 periods of time: one from Mar 12, 2016 to Apr 11, 2016, and the other from Apr 12, 2016 to May 12, 2016. But data files across periods do not necessarily align. If the same data tables exist for both time periods, I can simply stack them (when Col 3 and 4 are both "Yes" in the following table).
 
-<ul><li></li></ul>
-
 |      | File Name | In Mar-Apr Batch | In Apr-May Batch | Number of Fields (Col) | Description of Data | Issues & Actions |
 |:---: | --------- | :--------------: | :--------------: | :--------------------: | ------------------- | ---------------- |
-|1| dailyActivity_merged.csv | Yes | Yes | 15 | <ol><li>Id#️⃣</li><li>ActivityDate📅</li><li>TotalSteps#️⃣</li><li>TotalDistance#️⃣</li><li>TrackerDistance#️⃣</li><li>LoggedActivitiesDistance#️⃣</li><li>VeryActiveDistance#️⃣</li><li>ModeratelyActiveDistance#️⃣</li><li>LightActiveDistance#️⃣</li><li>SedentaryActiveDistance#️⃣</li><li>VeryActiveMinutes#️⃣</li><li>FairlyActiveMinutes#️⃣</li><li>LightlyActiveMinutes#️⃣</li><li>SedentaryMinutes#️⃣</li><li>Calories#️⃣</li></ol> | <ul><li>Some numerical data are stored as text strings, need to convert data type.</li><li>TotalDistance may not equate the sum of its subcategories, need to inspect closer. </li><li>This table aggregates steps, distances, calories from the tables below, but does not capture all information, e.g. some users or days entries are left out.</li></ul> |
-|2| dailyCalories_merged.csv | No | Yes | 3 | Data already captured in file 1 | |
-|3| dailyIntensities_merged.csv | No | Yes | 10 | Data already captured in file 1 | |
-|4| dailySteps_merged.csv | No | Yes | Data already captured in file 1 | |
-|5| hearrate_seconds_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>Time🕐</li><li>Value#️⃣</li></ol> | This is indeed 30 users' heart rate by the second over two months, so there are too many rows to be processed in a spreadsheet application. |
-|6| hourlyCalories_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>Value#️⃣</li></ol> | |
-|7| hourlyIntensities_merged.csv | Yes | Yes | 4 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>TotalIntensity#️⃣</li><li>AverageIntensity#️⃣: hourly value / 60</li></ol>
-|8| hourlySteps_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>StepTotal#️⃣</li></ol> ||
-|9| minuteCaloriesNarrow_merged.csv | Yes | Yes | 3 | Similar to file 6, but broken down into minutes ||
-|10| minuteCaloriesWide_merged.csv | No | Yes | 62 | Same data as file 9, but in wide format with each minute of hour as a column ||
-|11| minuteIntensitiesNarrow_merged.csv | Yes | Yes | 3 | Similar to file 7, but broken down into minutes ||
-|12| minuteIntensitiesWide_merged.csv | No | Yes | 62 | Same data as file 11, but in wide format with each minute of hour as a column ||
-|13| minuteMETsNarrow_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>METs#️⃣: metabolic equivalents, used to estimate activity intensity</li></ol>
-|14| minuteSleep_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>Date🕐</li><li>value#️⃣: in fact category labels, 1=light, 2=deep, 3=REM</li></ol> ||
-|15| minuteStepsNarrow_merged.csv | Yes | Yes | 3 | Similar to file 8, but broken down into minutes ||
-|16| minuteStepsWide_merged.csv | No | Yes | 62 | Same data as file 16, but in wide format with each minute of hour as a column ||
-|17| weightLogInfo_merged.csv | Yes | Yes | 8 | <ol><li>Id#️⃣</li><li>Date🕐</li><li>WeightKg#️⃣</li><li>WeightPounds#️⃣</li><li>Fat#️⃣</li><li>BMI#️⃣</li><li>IsManualReport🔤</li><li>LogId🔤</li></ol> ||
-|18| sleepDay_merged.csv | No | Yes | 5 | <ol><li>Id#️⃣</li><li>SleepDay🕐</li><li>TotalSleepRecords#️⃣</li><li>TotalMinutesAsleep#️⃣</li><li>TotalTimeInBed#️⃣</li></ol> | Not available for Mar-Apr, but can be calculated from file 14 |
+|**1**| dailyActivity_merged.csv | Yes | Yes | 15 | <ol><li>Id#️⃣</li><li>ActivityDate📅</li><li>TotalSteps#️⃣</li><li>TotalDistance#️⃣</li><li>TrackerDistance#️⃣</li><li>LoggedActivitiesDistance#️⃣</li><li>VeryActiveDistance#️⃣</li><li>ModeratelyActiveDistance#️⃣</li><li>LightActiveDistance#️⃣</li><li>SedentaryActiveDistance#️⃣</li><li>VeryActiveMinutes#️⃣</li><li>FairlyActiveMinutes#️⃣</li><li>LightlyActiveMinutes#️⃣</li><li>SedentaryMinutes#️⃣</li><li>Calories#️⃣</li></ol> | <ul><li>Some numerical data are stored as text strings, need to convert data type.</li><li>TotalDistance may not equate the sum of its subcategories, need to inspect closer. </li><li>This table aggregates steps, distances, calories from the tables below, but does not capture all information, e.g. some users or days entries are left out.</li></ul> |
+|**2**| dailyCalories_merged.csv | No | Yes | 3 | Data already captured in file 1 | |
+|**3**| dailyIntensities_merged.csv | No | Yes | 10 | Data already captured in file 1 | |
+|**4**| dailySteps_merged.csv | No | Yes | 3 | Data already captured in file 1 | |
+|**5**| hearrate_seconds_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>Time🕐</li><li>Value#️⃣</li></ol> | This is indeed 30 users' heart rate by the second over two months, so there are too many rows to be processed in a spreadsheet application. |
+|**6**| hourlyCalories_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>Value#️⃣</li></ol> | |
+|**7**| hourlyIntensities_merged.csv | Yes | Yes | 4 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>TotalIntensity#️⃣</li><li>AverageIntensity#️⃣: hourly value / 60</li></ol>
+|**8**| hourlySteps_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>StepTotal#️⃣</li></ol> ||
+|**9**| minuteCaloriesNarrow_merged.csv | Yes | Yes | 3 | Similar to file 6, but broken down into minutes ||
+|**10**| minuteCaloriesWide_merged.csv | No | Yes | 62 | Same data as file 9, but in wide format with each minute of hour as a column ||
+|**11**| minuteIntensitiesNarrow_merged.csv | Yes | Yes | 3 | Similar to file 7, but broken down into minutes ||
+|**12**| minuteIntensitiesWide_merged.csv | No | Yes | 62 | Same data as file 11, but in wide format with each minute of hour as a column ||
+|**13**| minuteMETsNarrow_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>METs#️⃣: metabolic equivalents, used to estimate activity intensity</li></ol>
+|**14**| minuteSleep_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>Date🕐</li><li>value#️⃣: in fact category labels, 1=light, 2=deep, 3=REM</li></ol> ||
+|**15**| minuteStepsNarrow_merged.csv | Yes | Yes | 3 | Similar to file 8, but broken down into minutes ||
+|**16**| minuteStepsWide_merged.csv | No | Yes | 62 | Same data as file 16, but in wide format with each minute of hour as a column ||
+|**17**| weightLogInfo_merged.csv | Yes | Yes | 8 | <ol><li>Id#️⃣</li><li>Date🕐</li><li>WeightKg#️⃣</li><li>WeightPounds#️⃣</li><li>Fat#️⃣</li><li>BMI#️⃣</li><li>IsManualReport🔤</li><li>LogId🔤</li></ol> ||
+|**18**| sleepDay_merged.csv | No | Yes | 5 | <ol><li>Id#️⃣</li><li>SleepDay🕐</li><li>TotalSleepRecords#️⃣</li><li>TotalMinutesAsleep#️⃣</li><li>TotalTimeInBed#️⃣</li></ol> | Not available for Mar-Apr, but can be calculated from file 14 |
+
+Building on my purpose statement, and taking into account what data I have at hand, I decide to look into these research questions:
+* Activity
+    * Do fitness tracker users tend to be very active?
+    * Are they more active on certain days of the week?
+    * Do steps, calories, activity intensity tell the same story?
+    * How to calories burnt correlate to number of steps?
+* Sleep
+    * Do users wear the tracker during sleep?
+    * How are users' sleep patterns?
+* Health
+    * Do users use tracker to address a specific health concern?
+    * Are people with a heart condition or obesity concern more likely to use a fitness tracker?
+ 
+Next, I will use the following data files to address these questions:
+1. **dailyActivity_merged.csv**: The format and structure of this table is pretty good, but there are missing entries and wrong data types in the provided file. So I will stick to this format, but calculate data with the other relevant files.
+2. **sleepDay_merged.csv**: since Mar-Apr data does not include this file, I will use **minuteSleep_merged.csv** to calculate all the fields for Mar-Apr and append it to Apr-May data.
+3. **hearrate_seconds_merged.csv** and **weightLogInfo_merged.csv** are both great for answering my question regarding health, but there are two issues:
+    * Weight and BMI are self-reported, and there are a lot of missing data.
+    * It is difficult to define a normal and a subnormal heart rate or BMI level, without knowing the person's age and other health conditions. 
 
 ## Process
 
