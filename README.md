@@ -29,14 +29,16 @@ Here is my evaluation regarding how the data fare as good data, on a scale of 1-
 * **Current - 1**: Data include activity recorded from March to April of 2016, which is more than 8 years ago. Generational trends and user behavior probably have changed by now, so this dataset fares poorly on this scale, and may not provide useful business insights today.
 * **Cited - 10**: Data is collected by Julia E Brinton, Mike D Keating, Alexa M Ortiz, Kelly R Evenson, Robert D Furberg in [this study](https://pubmed.ncbi.nlm.nih.gov/28450274/).
 
-Data files are collected over 2 periods of time: one from Mar 12, 2016 to Apr 11, 2016, and the other from Apr 12, 2016 to May 12, 2016. But data files across periods do not necessarily align.
+Data files are collected over 2 periods of time: one from Mar 12, 2016 to Apr 11, 2016, and the other from Apr 12, 2016 to May 12, 2016. But data files across periods do not necessarily align. If the same data tables exist for both time periods, I can simply stack them (when Col 3 and 4 are both "Yes" in the following table).
 
-|      | File Name | In Mar-Apr Batch | In Apr-May Batch | Number of Fields (Col) | Description of Data | Dependencies | Issues |
-|:---: | --------- | :--------------: | :--------------: | :--------------------: | ------------------- | ------------ | ------ |
-|1| dailyActivity_merged.csv | Yes | Yes | 15 | <ul><li>Id</li><li>ActivityDate</li><li>TotalSteps</li><li>TotalDistance</li><li>TrackerDistance</li><li>LoggedActivitiesDistance</li><li>VeryActiveDistance</li><li>ModeratelyActiveDistance</li><li>LightActiveDistance</li><li>SedentaryActiveDistance</li><li>VeryActiveMinutes</li><li>FairlyActiveMinutes</li><li>LightlyActiveMinutes</li><li>SedentaryMinutes</li><li>Calories</li></ul> | | <ul><li>Some numerical data are stored as text strings</li><li>TotalDistance may not equate the sum of its subcategories</li></ul> |
-|2| dailyCalories_merged.csv | No | Yes | 
-|3| dailyIntensities_merged.csv | No | Yes |
-|4| dailySteps_merged.csv | No | Yes |
+<ul><li></li></ul>
+
+|      | File Name | In Mar-Apr Batch | In Apr-May Batch | Number of Fields (Col) | Description of Data | Issues & Actions |
+|:---: | --------- | :--------------: | :--------------: | :--------------------: | ------------------- | ---------------- |
+|1| dailyActivity_merged.csv | Yes | Yes | 15 | <ol><li>Id</li><li>ActivityDate</li><li>TotalSteps</li><li>TotalDistance</li><li>TrackerDistance</li><li>LoggedActivitiesDistance</li><li>VeryActiveDistance</li><li>ModeratelyActiveDistance</li><li>LightActiveDistance</li><li>SedentaryActiveDistance</li><li>VeryActiveMinutes</li><li>FairlyActiveMinutes</li><li>LightlyActiveMinutes</li><li>SedentaryMinutes</li><li>Calories</li></ol> | | <ul><li>Some numerical data are stored as text strings, need to convert data type.</li><li>TotalDistance may not equate the sum of its subcategories, need to inspect closer. </li></ul> |
+|2| dailyCalories_merged.csv | No | Yes | 3 | Data already captured in dailyActivity_merged.csv | |
+|3| dailyIntensities_merged.csv | No | Yes | 10 | Data already captured in dailyActivity_merged.csv | |
+|4| dailySteps_merged.csv | No | Yes | 
 |5| hearrate_seconds_merged.csv | Yes | Yes |
 |6| hourlyCalories_merged.csv | Yes | Yes |
 |7| hourlyIntensities_merged.csv | Yes | Yes |
