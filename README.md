@@ -8,6 +8,8 @@ A detailed case study packet is saved in the Business Ask folder.
 
 To facilitate the planning stage of this project, I put together [this mind map](https://miro.com/app/board/uXjVL_Uxt_4=/?share_link_id=308983498196) based on the guides in the packet and some action plans I jotted down as I read the requirements.
 
+![image](https://github.com/user-attachments/assets/00b7bc18-3011-48ba-9369-18e8488c7810)
+
 Now I am starting this case study by following the steps of the data analysis process: **ask**, **prepare**, **process**, **analyze**, **share**, and **act**. So this document will follow the same structure.
 
 ## Ask
@@ -35,24 +37,24 @@ Data files are collected over 2 periods of time: one from Mar 12, 2016 to Apr 11
 
 |      | File Name | In Mar-Apr Batch | In Apr-May Batch | Number of Fields (Col) | Description of Data | Issues & Actions |
 |:---: | --------- | :--------------: | :--------------: | :--------------------: | ------------------- | ---------------- |
-|1| dailyActivity_merged.csv | Yes | Yes | 15 | <ol><li>Id</li><li>ActivityDate</li><li>TotalSteps</li><li>TotalDistance</li><li>TrackerDistance</li><li>LoggedActivitiesDistance</li><li>VeryActiveDistance</li><li>ModeratelyActiveDistance</li><li>LightActiveDistance</li><li>SedentaryActiveDistance</li><li>VeryActiveMinutes</li><li>FairlyActiveMinutes</li><li>LightlyActiveMinutes</li><li>SedentaryMinutes</li><li>Calories</li></ol> | | <ul><li>Some numerical data are stored as text strings, need to convert data type.</li><li>TotalDistance may not equate the sum of its subcategories, need to inspect closer. </li></ul> |
-|2| dailyCalories_merged.csv | No | Yes | 3 | Data already captured in dailyActivity_merged.csv | |
-|3| dailyIntensities_merged.csv | No | Yes | 10 | Data already captured in dailyActivity_merged.csv | |
-|4| dailySteps_merged.csv | No | Yes | 
-|5| hearrate_seconds_merged.csv | Yes | Yes |
-|6| hourlyCalories_merged.csv | Yes | Yes |
-|7| hourlyIntensities_merged.csv | Yes | Yes |
-|8| hourlySteps_merged.csv | Yes | Yes |
-|9| minuteCaloriesNarrow_merged.csv | Yes | Yes |
-|10| minuteCaloriesWide_merged.csv | No | Yes |
-|11| minuteIntensitiesNarrow_merged.csv | Yes | Yes |
-|12| minuteIntensitiesWide_merged.csv | No | Yes |
-|13| minuteMETsNarrow_merged.csv | Yes | Yes
-|14| minuteSleep_merged.csv | Yes | Yes |
-|15| minuteStepsNarrow_merged.csv | Yes | Yes |
-|16| minuteStepsWide_merged.csv | No | Yes |
-|17| weightLogInfo_merged.csv | Yes | Yes |
-|18| sleepDay_merged.csv | No | Yes
+|1| dailyActivity_merged.csv | Yes | Yes | 15 | <ol><li>Id#️⃣</li><li>ActivityDate📅</li><li>TotalSteps#️⃣</li><li>TotalDistance#️⃣</li><li>TrackerDistance#️⃣</li><li>LoggedActivitiesDistance#️⃣</li><li>VeryActiveDistance#️⃣</li><li>ModeratelyActiveDistance#️⃣</li><li>LightActiveDistance#️⃣</li><li>SedentaryActiveDistance#️⃣</li><li>VeryActiveMinutes#️⃣</li><li>FairlyActiveMinutes#️⃣</li><li>LightlyActiveMinutes#️⃣</li><li>SedentaryMinutes#️⃣</li><li>Calories#️⃣</li></ol> | <ul><li>Some numerical data are stored as text strings, need to convert data type.</li><li>TotalDistance may not equate the sum of its subcategories, need to inspect closer. </li><li>This table aggregates steps, distances, calories from the tables below, but does not capture all information, e.g. some users or days entries are left out.</li></ul> |
+|2| dailyCalories_merged.csv | No | Yes | 3 | Data already captured in file 1 | |
+|3| dailyIntensities_merged.csv | No | Yes | 10 | Data already captured in file 1 | |
+|4| dailySteps_merged.csv | No | Yes | Data already captured in file 1 | |
+|5| hearrate_seconds_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>Time🕐</li><li>Value#️⃣</li></ol> | This is indeed 30 users' heart rate by the second over two months, so there are too many rows to be processed in a spreadsheet application. |
+|6| hourlyCalories_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>Value#️⃣</li></ol> | |
+|7| hourlyIntensities_merged.csv | Yes | Yes | 4 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>TotalIntensity#️⃣</li><li>AverageIntensity#️⃣: hourly value / 60</li></ol>
+|8| hourlySteps_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>StepTotal#️⃣</li></ol> ||
+|9| minuteCaloriesNarrow_merged.csv | Yes | Yes | 3 | Similar to file 6, but broken down into minutes ||
+|10| minuteCaloriesWide_merged.csv | No | Yes | 62 | Same data as file 9, but in wide format with each minute of hour as a column ||
+|11| minuteIntensitiesNarrow_merged.csv | Yes | Yes | 3 | Similar to file 7, but broken down into minutes ||
+|12| minuteIntensitiesWide_merged.csv | No | Yes | 62 | Same data as file 11, but in wide format with each minute of hour as a column ||
+|13| minuteMETsNarrow_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>ActivityHour🕐</li><li>METs#️⃣: metabolic equivalents, used to estimate activity intensity</li></ol>
+|14| minuteSleep_merged.csv | Yes | Yes | 3 | <ol><li>Id#️⃣</li><li>Date🕐</li><li>value#️⃣: in fact category labels, 1=light, 2=deep, 3=REM</li></ol> ||
+|15| minuteStepsNarrow_merged.csv | Yes | Yes | 3 | Similar to file 8, but broken down into minutes ||
+|16| minuteStepsWide_merged.csv | No | Yes | 62 | Same data as file 16, but in wide format with each minute of hour as a column ||
+|17| weightLogInfo_merged.csv | Yes | Yes | 8 | <ol><li>Id#️⃣</li><li>Date🕐</li><li>WeightKg#️⃣</li><li>WeightPounds#️⃣</li><li>Fat#️⃣</li><li>BMI#️⃣</li><li>IsManualReport🔤</li><li>LogId🔤</li></ol> ||
+|18| sleepDay_merged.csv | No | Yes | 5 | <ol><li>Id#️⃣</li><li>SleepDay🕐</li><li>TotalSleepRecords#️⃣</li><li>TotalMinutesAsleep#️⃣</li><li>TotalTimeInBed#️⃣</li></ol> | Not available for Mar-Apr, but can be calculated from file 14 |
 
 ## Process
 
