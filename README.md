@@ -75,6 +75,11 @@ Next, I will use the following data files to address these questions:
     * It is difficult to define a normal and a subnormal heart rate or BMI level, without knowing the person's age and other health conditions. 
 
 ## Process
+The **dailyActivity_merged.csv** may be incomplete. For exmaple the first user 1503960366 only has data from 2016-03-25, but hourly and minute versions actually do have data starting from 2016-03-12. We will start from the hourly version and build my way to the same format as dailyActivity_merged.csv file.
+![image](https://github.com/user-attachments/assets/24114f03-d842-4bb9-a4b3-564ca2b4b61c)
+
+During discovery, there are a few files in long format that are impossible to process in a spreadsheet application. I will use R throughout the data processing and visualization phases of this project.
+
 
 ## Analyze
 
