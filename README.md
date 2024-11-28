@@ -31,9 +31,9 @@ Here is my evaluation regarding how the data fare as good data, on a scale of 1-
 
 Data files are collected over 2 periods of time: one from Mar 12, 2016 to Apr 11, 2016, and the other from Apr 12, 2016 to May 12, 2016. But data files across periods do not necessarily align.
 
-|      | File Name | In Mar-Apr Batch | In Apr-May Batch | Number of Fields (Col) | Description of Data | Dependencies |
-|:---: | --------- | :--------------: | :--------------: | :--------------------: | ------------------- | ------------ |
-|1| dailyActivity_merged.csv | Yes | Yes | 15 | <ul><li>Id</li><li>ActivityDate</li></ul>
+|      | File Name | In Mar-Apr Batch | In Apr-May Batch | Number of Fields (Col) | Description of Data | Dependencies | Issues |
+|:---: | --------- | :--------------: | :--------------: | :--------------------: | ------------------- | ------------ | ------ |
+|1| dailyActivity_merged.csv | Yes | Yes | 15 | <ul><li>Id</li><li>ActivityDate</li><li>TotalSteps</li><li>TotalDistance</li><li>TrackerDistance</li><li>LoggedActivitiesDistance</li><li>VeryActiveDistance</li><li>ModeratelyActiveDistance</li><li>LightActiveDistance</li><li>SedentaryActiveDistance</li><li>VeryActiveMinutes</li><li>FairlyActiveMinutes</li><li>LightlyActiveMinutes</li><li>SedentaryMinutes</li><li>Calories</li></ul> | | <ul><li>Some numerical data are stored as text strings</li><li>TotalDistance may not equate the sum of its subcategories</li></ul> |
 |2| dailyCalories_merged.csv | No | Yes | 
 |3| dailyIntensities_merged.csv | No | Yes |
 |4| dailySteps_merged.csv | No | Yes |
