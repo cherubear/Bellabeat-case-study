@@ -80,9 +80,60 @@ The **dailyActivity_merged.csv** may be incomplete. For exmaple the first user 1
 
 During discovery, there are a few files in long format that are impossible to process in a spreadsheet application. I will use R throughout the data processing and visualization phases of this project.
 
+Documentation of any cleaning or manipulation of data:
+* Files from two time periods are insepcted and combined if they have the same structure and formats.
+* When daily data is not available for Mar-Apr, I aggregate them from hourly data before merging with Apr-May data.
+* Complete duplicates were removed, although no duplicate was found - there are duplicates in the dailyActivity.csv file, but I created my own version by aggregating the other files.
+* Dates were cast from string to datetime data type.
+* There are occurences where column names may be too generic, or in conflict with an R keyword (such as date), so they are renamed.
+
+Please see detailed steps in Process phase in [this RMD file](https://github.com/cherubear/Bellabeat-case-study/blob/main/bellabeat-case-study.Rmd).
 
 ## Analyze
 
+Please see detailed steps in Analyze phase in [this RMD file](https://github.com/cherubear/Bellabeat-case-study/blob/main/bellabeat-case-study.Rmd).
+
 ## Share
 
+Key observation 1: A typical user tends not to be very active. On average, they take under 6000 steps a day, while CDC recommends at least 10,000 a day. This goal was only hit 31% of the time.
+![image](https://github.com/user-attachments/assets/eb5f7dc3-4423-42e3-b90a-0b5ff5617425)
+
+Key observation 2: A typical user is likely someone who holds a regular five-day work week in an office. On any given day, number of steps peak during lunch time and after 5PM. Over a week, it is not surprising that most steps were taken on Satudays. Wednesdays are not bad either, but Sundays and Mondays are when users walked the least. It is a bit counterintuitive that Friday also appears to be an inactive day in terms of steps taken.
+![image](https://github.com/user-attachments/assets/8ea874c1-ff1e-4fc5-ba24-104da93f3196)
+![image](https://github.com/user-attachments/assets/83b00abc-57e9-40cc-ae83-71acf64f28a4)
+
+Key observation 3: Users do not take the fitness tracker to bed, more often than not. Considering we have data of 30 users wearing FitBit over two months' time (that is 1800+ user-days), we only see 49% of the days when the tracker logged some sleep data. Sleep tracking may not be a top concern for these users, and not a key feature they emphasize when shopping for a fitness tracker.
+![image](https://github.com/user-attachments/assets/7dd73c2a-f3d5-4b9c-9129-b2b234dae367)
+
+Key observation 4: Getting weight data is hard given everyone's privacy concerns, but out of the 13 users who did log weight data, a majority (9 out of 13) was overweight or obese. This, combined with the fact that our sample users were not very active, showed that a typical user interested in getting a fitness tracker may be hoping to track their activity and motivate them to be fit.
+![image](https://github.com/user-attachments/assets/5d1ce687-f143-444a-8291-55d485cac67e)
+
+I understand that a lot more can be done with the dataset, producing fancy charts showing trends and relationships between different variables. But these are the four key observations I identified that can get us started with a profile of potential customer of our fitness products. There certainly are a lot more I want to recover, just to name a few:
+* What type of activities most efficiently contribute to weight loss (high or medium in intensity)?
+* Does users' behavior change over time, in other words, does wearing a fitness tracker help them build healthier lifestyle?
+* I have my hypotheses why users may not wear fitness tracker to bed, but can we find out more, maybe through a survey?
+* Does the type of activity, or when the activity is done, affect quality of sleep?
+However, the data in this dataset as well as on the internet as of today is very scarce. Bellabeat can start collecting data with our own products, push out insights we obtain from this data, and share them with our users.
+
 ## Act
+
+Based on my analysis, I would recommend taking these actions with Bellabeat Leaf and our smartphone application:
+
+**Marketing**
+
+* Since a typical user is probably a working class individual, we can deploy ads on subways, and elevators or shopping malls near office buildings.
+* We can collaborate with YouTube or podcast KOLs who are known to have a young working population (office jobs more desirable) as their audience, for example, a Business and Finance podcast channel.
+* We can sponsor a corporate fitness event.
+
+**Data Collecting**
+
+* Fully educate user on how we will use our data, e.g. how we use data to uncover how certain activity/sleep pattern can contribute to one's health.
+* Openly acknowledge their privacy concerns, and explain what we do to protect their privacy.
+* Upon setup in app, use a short questionnaire to understand what the user hope to achieve with a smart fitness tracker. If we find out, for example, activity tracking is a much higher demand than sleep tracking, we know what to prioritize in product development.
+
+**Product Features**
+
+* Share insights we learned from our own data, show fund and easy-to-read visualizations and articles that help people to stay fit. E.g. introduce creative ways to exercise, like a short exercise before bed, what to do when it's too cold outside, what can you do when working at a desk, etc.
+* Motivate! Use badge system, gamification, or simply some kind words.
+* On the Leaf tracker, implement a reminder for user to stand up and take a short walk.
+* Since we are targetting a female market, maybe we can use something like a color light on the Leaf to remind user of menstral cycle status.
