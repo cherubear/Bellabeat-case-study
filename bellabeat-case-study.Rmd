@@ -1,0 +1,225 @@
+---
+title: "Bellabeat Case Study"
+author: "Xiaoyu Zhu"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+# Background
+Continuing my project described [here](https://github.com/cherubear/Bellabeat-case-study/blob/main/README.md), I want to address these research questions:
+
+* Activity
+    + Do fitness tracker users tend to be very active?
+    + Are they more active on certain days of the week?
+    + Do steps and calories tell the same story? How to calories burnt correlate to number of steps?
+* Sleep
+    + Do users wear the tracker during sleep?
+    + How are users' sleep patterns?
+* Health
+    + Do users use tracker to address a specific health concern?
+    + Are people with a heart condition or obesity concern more likely to use a fitness tracker?
+
+# Loading Packages and Data
+
+```{r Packages}
+
+# install.packages("tidyverse")
+# install.packages("ggExtra")
+library(tidyverse)
+library(ggExtra)
+
+```
+
+```{r Load Data}
+
+# Hourly data for Mar-Apr
+hourly_calories_mar = read.csv("data/data_mar/hourlyCalories_merged.csv")
+hourly_steps_mar = read.csv("data/data_mar/hourlySteps_merged.csv")
+hourly_steps_apr = read.csv("data/data_apr/hourlySteps_merged.csv")
+
+# Daily data for Apr-May
+daily_calories_apr = read.csv("data/data_apr/dailyCalories_merged.csv")
+daily_steps_apr = read.csv("data/data_apr/dailySteps_merged.csv")
+
+# Sleep data
+sleep_mar = read.csv("data/data_mar/minuteSleep_merged.csv")
+sleep_apr = read.csv("data/data_apr/minuteSleep_merged.csv")
+
+# Weight Log
+weight_mar = read.csv("data/data_mar/weightLogInfo_merged.csv")
+weight_apr = read.csv("data/data_apr/weightLogInfo_merged.csv")
+
+```
+
+# Process
+
+## Aggregating Activity Data
+
+The data came in two batches, one for the period from Mar 12 to Apr 11, and the other for Apr 12 through May 12. The files may be pre-processed by other researchers, and there are missing observations in some activity data from dates prior to Mar 25. Therefore I reconstruct the daily activity data from hourly files. 
+
+```{r}
+
+# Join calories, intensities and steps data for Mar-Apr
+hourly_activity_mar = hourly_calories_mar %>% 
+  full_join(hourly_steps_mar, by=c("Id", "ActivityHour"))
+
+# Aggregate hourly data into daily
+daily_activity_mar = hourly_activity_mar %>% 
+  distinct() %>%    # checking for duplicates, but no dupe found
+  group_by(Id, ActivityDay=date(mdy_hms(ActivityHour))) %>% 
+  summarise(calories = sum(Calories), steps = sum(StepTotal))
+
+```
+
+The Apr-May data appear intact, so I will append the two batches together.
+
+```{r}
+# Join calories and steps data for Apr-May
+daily_activity_apr = daily_calories_apr %>% 
+  full_join(daily_steps_apr, by=c("Id", "ActivityDay")) %>% 
+  rename(calories=Calories, steps=StepTotal)
+
+# Stack two tables
+daily_activity_apr$ActivityDay = as.Date(daily_activity_apr$ActivityDay, format="%m/%d/%Y")
+daily_activity = bind_rows(daily_activity_mar, daily_activity_apr)
+```
+
+## Cleaning Sleep Data
+
+## Cleaning Health Data
+
+# Analyze
+
+## Activity
+
+_Do fitness tracker users tend to be very active?_
+
+```{r}
+
+plot = daily_activity %>% 
+  group_by(Id) %>% 
+  summarise(average_daily_steps=mean(steps), average_daily_calories=mean(calories)) %>% 
+  ggplot()+geom_point(mapping=aes(x=average_daily_steps, y=average_daily_calories)) + 
+  labs(title="Daily Steps vs. Calories Burnt", x="average daily steps", y="average daily calories")
+
+ggMarginal(plot, type="densigram", fill="maroon", alpha=0.5, col="maroon")
+
+sum(daily_activity$steps>=10000)/nrow(daily_activity) * 100 # percentage of days hitting 10,000 steps
+
+```
+The CDC recommends that most adults aim for 10,000 steps per day. For most people, this is the equivalent of about 8 kilometers or 5 miles. Our data shows that only about 31% in our sample meet that criteria. We can speculate that the target group for smart fitness trackers are likely those who are sedentary, but need a nudge to take more steps.
+
+_Are they more active on certain days of the week?_
+
+```{r}
+
+# Summarize step by day of week
+daily_activity %>% 
+  group_by(week_day=wday(ActivityDay, label=TRUE, locale="US")) %>% 
+  summarise(steps_by_week_day = mean(steps)) %>% 
+  ggplot(aes(x=week_day, y=steps_by_week_day))+geom_bar(stat="identity") + 
+  geom_text(aes(label=round(steps_by_week_day,0)), vjust=-0.5) +
+  labs(title="Average Number of Steps by Day of Week", x="", y="Average Steps")
+
+```
+
+Data show that on average, users take the most steps on Saturday, rest and recharge on Sunday. During weekdays, it is interesting to find that number of steps rise and peak on Wednesday and then fall back down through Friday. The typical user most likely has a five-day work week, though more needs to be done to uncover why number of steps is surprisingly low on Friday.
+
+_How about steps taken by hour of day?_
+
+```{r}
+
+# Summarize step by hour of day
+hourly_steps = bind_rows(hourly_steps_mar, hourly_steps_apr)
+hourly_steps %>% 
+  group_by(hour_day=factor(hour(mdy_hms(ActivityHour)))) %>% 
+  summarise(steps_by_hour = mean(StepTotal)) %>% 
+  ggplot(aes(x=hour_day, y=steps_by_hour, fill=hour_day))+geom_bar(stat="identity") + 
+  geom_text(aes(label=round(steps_by_hour,0)), size=3, vjust=-0.5) +
+  labs(title="Average Number of Steps by Hour of Day", x="", y="Average Steps")
+
+```
+Users are more active during 12-2PM, and 5-7PM. It is likely that a typical user has a regular work schedule, and therefore more active during lunch hour and after work.
+
+_Do steps and calories tell the same story? How to calories burnt correlate to number of steps?_
+
+We also note that steps taken and calories burnt don't seem to have as strong a correlation as we expected. This is because the number of steps taken doesn't directly translate to the same calorie burn for everyone, as factors like body weight, walking pace, terrain, and individual metabolism significantly impact how many calories are burned per step.
+
+## Sleep
+
+_Do users wear the tracker during sleep?_
+
+Sleep data exist in one csv file. The way data is recorded is such that each minute of sleep is assigned a sleep status label, where 1 is light sleep, 2 is deep sleep, and 3 is rapid eye movement (REM). If user is not asleep, no entry is created for that minute. To understand if users tend to wear the tracker to bed, I assume everyone get some sleep on any given day, therefore I filter for days with absolutely no sleep data and consider them as user not wearing the fitness tracker.
+
+```{r}
+
+N = 30 # define a global variable of sample size
+sleep_all = bind_rows(sleep_mar, sleep_apr) # combine data
+period_duration = as.integer(difftime(as.Date("2016-05-12"), as.Date("2016-03-12"), unit="days"))
+
+# Inspect data completeness
+sleep_record_days_percentage = sleep_all %>% 
+  rename(sleep_date=date) %>% 
+  group_by(Id) %>% 
+  summarise(distinct_days = n_distinct(date(mdy_hms((sleep_date))))/period_duration*100)
+
+
+# Calculate likeliness of user wearing the tracker to bed
+sleep_users = nrow(sleep_record_days_percentage)
+if (sleep_users < N) {
+  average_wear_in_sleep = mean(sleep_record_days_percentage$distinct_days)*sleep_users/30
+  n_missing = N - sleep_users
+  df = data.frame(Id = rep(NA, n_missing), distinct_days = rep(0.0, n_missing))
+  sleep_record_days_percentage = bind_rows(sleep_record_days_percentage, df)
+} else {
+  average_wear_in_sleep = mean(sleep_record_days_percentage$distinct_days)
+}
+
+sleep_plot_label = str_wrap(paste("Average % of day user wear tracker to sleep = ", round(average_wear_in_sleep,1)),30)
+ggplot(data=sleep_record_days_percentage) + geom_histogram(mapping=aes(x=distinct_days)) + 
+  geom_vline(xintercept=average_wear_in_sleep, color="maroon", linetype="dashed") +
+  geom_text(x=average_wear_in_sleep+1, y=6, label=sleep_plot_label, color="maroon", hjust=0)
+
+```
+
+The data show that users do not tend to wear fitness tracker to bed very often. On average, this sample of 30 users take fitness tracker to bed about 50% of the time, including 5 users who recorded no sleep data over two-month period at all. There may be multiple possibilities, 1) the design of the tracker is too bulky so that it can be tolerated during the day, but too much for bedtime; 2) user simply forget to put it back on after shower, or prefer to charge the battery overnight; and 3) user is only interested in daytime activity tracking, and do not wish to track sleep data.
+
+## Health
+
+_Are people with a heart condition or obesity concern more likely to use a fitness tracker?_
+
+```{r Weight}
+
+# Categorize weights
+desired_order = c("Underweight", "Healthy weight", "Overweight", "Obesity")
+weight = bind_rows(weight_mar, weight_apr)
+label_count = weight %>% 
+  group_by(Id) %>% 
+  summarise(avg_BMI = mean(BMI)) %>% 
+  mutate(label = case_when(
+    avg_BMI < 18.5 ~ "Underweight",
+    avg_BMI < 25 ~ "Healthy weight",
+    avg_BMI < 30 ~ "Overweight",
+    TRUE ~ "Obesity"
+  )) %>% 
+  count(label) %>% 
+  mutate(label=factor(label, levels=desired_order)) %>% 
+  arrange(label)
+
+# Plot pie chart
+  hsize = 2
+  ggplot(data=label_count, aes(x=hsize, y=n, fill=label)) +
+  geom_col(color = "white") +
+  coord_polar(theta = "y") +
+  xlim(c(0.2, hsize + 0.5)) + 
+  geom_text(aes(label=n), size=4, position=position_stack(vjust = 0.5)) +
+  theme_void()
+
+```
+
+The data is quite limited - only 13 users provided at least one weight log. Nonetheless, the majority of this small sample is overweight or obese. It is likely that they are well aware of the fact, and use a fitness tracker to record activity and motivate themselves.
