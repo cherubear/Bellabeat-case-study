@@ -133,7 +133,7 @@ Based on my analysis, I would recommend taking these actions with Bellabeat Leaf
 
 **Product Features**
 
-* Share insights we learned from our own data, show fund and easy-to-read visualizations and articles that help people to stay fit. E.g. introduce creative ways to exercise, like a short exercise before bed, what to do when it's too cold outside, what can you do when working at a desk, etc.
+* Share insights we learned from our own data, show fun and easy-to-read visualizations and articles that help people to stay fit. E.g. introduce creative ways to exercise, like a short exercise before bed, what to do when it's too cold outside, what can you do when working at a desk, etc.
 * Motivate! Use badge system, gamification, or simply some kind words.
 * On the Leaf tracker, implement a reminder for user to stand up and take a short walk.
 * Since we are targetting a female market, maybe we can use something like a color light on the Leaf to remind user of menstral cycle status.
